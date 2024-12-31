@@ -1,0 +1,24 @@
+baseName: drawio
+imageName: docker.io/jgraph/drawio
+imageTag: 26.0.2
+
+limitCpu: 200m
+limitMemory: 512Mi
+
+enableAppTls: false
+enableIngressTls: false
+
+baseUrl: example.local
+
+
+# tolerations:
+# - key: node-role.kubernetes.io/control-plane
+#   operator: Exists
+#   effect: NoSchedule
+# - key: node-role.kubernetes.io/master
+#   operator: Exists
+#   effect: NoSchedule
+
+# namespace: drawio
+
+# command: ["/bin/sleep", "infinity"]

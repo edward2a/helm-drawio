@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.baseName }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
+  labels:
+    app: draw.io
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: draw.io
+    template:
+      metadata:
+        labels:
+          app: draw.io
+      spec:
+        {{- if .Values.tolerations }}
+        tolerations:
+          {{ .Values.tolerations }}
+        {{- end }}
+        containers:
+        - name: {{ .Values.baseName }}
+          image: {{ .Values.imageName }}:{{ .Values.imageTag }}
+          imagePullPolicy: IfNotPresent
+          {{- if .Values.command }}
+          command: {{ toRawJson .Values.command }}
+          {{- end }}
+          ports:
+          - containerPort: 8080
+            name: http
+          - containerPort: 8443
+            name: https
+          resources:
+            limits:
+              cpu: {{ .Values.limitCpu }}
+              memory: {{ .Values.limitMemory }}
+...
