@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.baseName }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
-    app: draw.io
+    app: {{ .Values.baseName }}
 spec:
   type: ClusterIP
   sessionAffinity: ClientIP
@@ -20,10 +20,10 @@ spec:
     port: 8443
   {{- end }}
   selector:
-    app: draw.io
+    app: {{ .Values.baseName }}
 ...
 ---
-apiVersion: networking.k8s/io/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.baseName }}
@@ -32,7 +32,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  inrgessClassName: nginx
+  ingressClassName: nginx
   rules:
   - host: {{ .Values.baseName }}.{{ .Values.baseUrl }}
     http:

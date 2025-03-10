@@ -5,35 +5,35 @@ metadata:
   name: {{ .Values.baseName }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
-    app: draw.io
+    app: {{ .Values.baseName }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: draw.io
-    template:
-      metadata:
-        labels:
-          app: draw.io
-      spec:
-        {{- if .Values.tolerations }}
-        tolerations:
-          {{ .Values.tolerations }}
+      app: {{ .Values.baseName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.baseName }}
+    spec:
+      {{- if .Values.tolerations }}
+      tolerations:
+        {{ .Values.tolerations }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.baseName }}
+        image: {{ .Values.imageName }}:{{ .Values.imageTag }}
+        imagePullPolicy: IfNotPresent
+        {{- if .Values.command }}
+        command: {{ toRawJson .Values.command }}
         {{- end }}
-        containers:
-        - name: {{ .Values.baseName }}
-          image: {{ .Values.imageName }}:{{ .Values.imageTag }}
-          imagePullPolicy: IfNotPresent
-          {{- if .Values.command }}
-          command: {{ toRawJson .Values.command }}
-          {{- end }}
-          ports:
-          - containerPort: 8080
-            name: http
-          - containerPort: 8443
-            name: https
-          resources:
-            limits:
-              cpu: {{ .Values.limitCpu }}
-              memory: {{ .Values.limitMemory }}
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 8443
+          name: https
+        resources:
+          limits:
+            cpu: {{ .Values.limitCpu }}
+            memory: {{ .Values.limitMemory }}
 ...
