@@ -1,6 +1,6 @@
 baseName: drawio
 imageName: docker.io/jgraph/drawio
-imageTag: 26.0.2
+imageTag: 26.1.0
 
 limitCpu: 200m
 limitMemory: 512Mi
